@@ -1,0 +1,215 @@
+# StockAI_Master Configuration with Expanded Watchlist
+alpha_vantage_api_key: "DQ4I233CG66GOW9T"
+email: "jaysweb@proton.me"
+db_path: "data/unified_stock_intelligence.db"
+log_level: "INFO"
+web_port: 8000
+rate_limit_delay: 12  # seconds between API calls
+max_retries: 3
+
+# Expanded Watchlist - Organized by Categories
+default_watchlist:
+  # Large Cap Tech
+  - "AAPL"
+  - "MSFT" 
+  - "GOOGL"
+  - "AMZN"
+  - "META"
+  - "NVDA"
+  - "TSLA"
+  - "NFLX"
+  - "ADBE"
+  - "CRM"
+  - "ORCL"
+  - "CSCO"
+  - "INTC"
+  - "AMD"
+  - "AVGO"
+  
+  # Financial Services
+  - "JPM"
+  - "BAC"
+  - "V"
+  - "MA"
+  - "AXP"
+  - "C"
+  - "COF"
+  - "BRK.B"
+  
+  # Healthcare & Pharma
+  - "JNJ"
+  - "PFE"
+  - "MRK"
+  - "ABBV"
+  - "LLY"
+  - "BIIB"
+  - "GILD"
+  - "HUM"
+  - "MOH"
+  - "HCA"
+  
+  # Consumer & Retail
+  - "AMZN"
+  - "COST"
+  - "HD"
+  - "WMT"
+  - "TJX"
+  - "DG"
+  - "KR"
+  - "SBUX"
+  - "MCD"
+  - "CMG"
+  - "CHWY"
+  - "SHOP"
+  
+  # Industrial & Defense
+  - "CAT"
+  - "BA"
+  - "HON"
+  - "RTX"
+  - "LMT"
+  - "GE"
+  - "LHX"
+  - "UPS"
+  - "FDX"
+  - "CSX"
+  
+  # Energy & Commodities
+  - "XOM"
+  - "CVX"
+  - "EOG"
+  - "EQT"
+  - "OXY"
+  - "FCX"
+  - "NEM"
+  - "GLD"
+  - "SLV"
+  - "BTU"
+  
+  # AI & Emerging Tech
+  - "PLTR"
+  - "AI"
+  - "SNOW"
+  - "CRWD"
+  - "DDOG"
+  - "NET"
+  - "OKTA"
+  - "PANW"
+  - "FTNT"
+  - "ARM"
+  - "ASML"
+  
+  # EV & Clean Energy
+  - "TSLA"
+  - "RIVN"
+  - "LCID"
+  - "NIO"
+  - "PLUG"
+  - "FCEL"
+  - "ENPH"
+  - "FSLR"
+  - "EVGO"
+  - "CGC"
+  
+  # Crypto Related
+  - "COIN"
+  - "MSTR"
+  - "RIOT"
+  - "MARA"
+  - "BITO"
+  - "ETHA"
+  - "ETHT"
+  - "CLSK"
+  
+  # Meme & High Volatility
+  - "GME"
+  - "AMC"
+  - "HOOD"
+  - "CLOV"
+  - "RDDT"
+  - "SNAP"
+  - "PINS"
+  
+  # Cloud & SaaS
+  - "SNOW"
+  - "CRWD"
+  - "DDOG"
+  - "NET"
+  - "OKTA"
+  - "NOW"
+  - "TWLO"
+  - "DOCN"
+  - "FSLY"
+  
+  # Semiconductors
+  - "NVDA"
+  - "AMD"
+  - "INTC"
+  - "AVGO"
+  - "QCOM"
+  - "MU"
+  - "TSM"
+  - "ASML"
+  - "ARM"
+  - "SMCI"
+  
+  # ETFs & Index Funds
+  - "SPY"
+  - "QQQ"
+  - "DIA"
+  - "ARKK"
+  - "ARKW"
+  - "ARKX"
+  - "VOO"
+  - "VTI"
+  - "SOXL"
+  - "TQQQ"
+  
+  # REITs
+  - "PSA"
+  - "VICI"
+  - "SPG"
+  - "EQX"
+  - "HST"
+  
+  # International
+  - "BABA"
+  - "TSM"
+  - "ASML"
+  - "NIO"
+  - "BIDU"
+  - "JD"
+  - "SE"
+  - "MCHI"
+  - "EEM"
+  - "FXI"
+
+# Alert settings
+email_alerts: false
+smtp_server: ""
+smtp_port: 587
+email_user: ""
+email_password: ""
+alert_recipients: []
+
+# Analysis settings
+update_frequency: "daily"
+batch_size: 100
+technical_indicators:
+  - "sma_50"
+  - "sma_200" 
+  - "rsi_14"
+  - "macd"
+  - "bollinger_bands"
+
+# Processing settings for large watchlist
+max_daily_analysis: 500  # Limit daily processing to avoid API limits
+priority_stocks: ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA"]  # Always analyze first
+
+# Data retention settings
+data_retention_days: 90
+archive_retention_days: 365
+
+# Analysis settings
+update_frequency: "daily"
+batch_size: 50  # Process 50 stocks at a time
