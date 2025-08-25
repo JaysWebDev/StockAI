@@ -1,0 +1,22 @@
+Daily Stock Intelligence Report - 2025-08-22 23:27:50
+================================================================================
+
+Watchlist: AAPL, MSFT, GOOGL, AMZN, TSLA, NVDA, META, JPM, V, JNJ
+
+Summary:
+- Successful analyses: 0
+- Failed analyses: 10
+- Total processed: 10
+
+Detailed Results:
+----------------------------------------
+AAPL: ERROR - No data available for AAPL
+MSFT: ERROR - No data available for MSFT
+GOOGL: ERROR - No data available for GOOGL
+AMZN: ERROR - No data available for AMZN
+TSLA: ERROR - No data available for TSLA
+NVDA: ERROR - No data available for NVDA
+META: ERROR - No data available for META
+JPM: ERROR - No data available for JPM
+V: ERROR - No data available for V
+JNJ: ERROR - No data available for JNJ
