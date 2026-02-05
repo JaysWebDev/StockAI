@@ -1,8 +1,9 @@
 # backend/main.py
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse, HTMLResponse
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 import sys
 import os
 from pathlib import Path
@@ -20,7 +21,15 @@ except ImportError:
     JINJA2_AVAILABLE = False
     print("⚠️ Jinja2 not installed. Using basic HTML serving.")
 
-from unified_stock_intelligence import UnifiedStockIntelligence, Config
+from config_manager import Config
+import os
+
+# Load environment variables from .env file if it exists
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    print("⚠️ python-dotenv not installed. Using system environment variables only.")
 
 app = FastAPI(title="StockAI Master API", version="1.0.0")
 
@@ -42,9 +51,47 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize the stock intelligence system
+# Initialize configuration with environment variable support
 config = Config.load_from_file("../config/config.yaml")
-stock_system = UnifiedStockIntelligence(config)
+
+# Validate configuration
+config_issues = config.validate()
+if config_issues:
+    print("⚠️ Configuration Issues:")
+    for issue in config_issues:
+        print(f"   • {issue}")
+    if any("required" in issue.lower() for issue in config_issues):
+        print("\n❌ Critical configuration missing. Check your .env file!")
+        exit(1)
+
+# Log safe configuration (without secrets)
+print("📋 Configuration loaded:")
+safe_config = config.get_safe_config()
+for key, value in safe_config.items():
+    if key in ['dashboard_password', 'alpha_vantage_api_key', 'secret_key']:
+        print(f"   • {key}: {value}")
+
+# Initialize authentication
+security = HTTPBasic()
+
+def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
+    """Authenticate user with dashboard credentials"""
+    if (credentials.username != config.dashboard_username or
+        credentials.password != config.dashboard_password):
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid credentials",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username
+
+# Initialize the stock intelligence system
+try:
+    from unified_stock_intelligence import UnifiedStockIntelligence
+    stock_system = UnifiedStockIntelligence(config)
+except ImportError:
+    print("⚠️ UnifiedStockIntelligence not found. Some features may be limited.")
+    stock_system = None
 
 def serve_html_file(filename: str):
     """Serve HTML file directly without Jinja2 templates"""
@@ -56,10 +103,10 @@ def serve_html_file(filename: str):
     return HTMLResponse("<h1>File not found</h1>", status_code=404)
 
 @app.get("/", response_class=HTMLResponse)
-async def dashboard(request: Request):
-    """Serve the main dashboard"""
+async def dashboard(request: Request, username: str = Depends(authenticate)):
+    """Serve the main dashboard (requires authentication)"""
     if JINJA2_AVAILABLE:
-        return templates.TemplateResponse("dashboard.html", {"request": request})
+        return templates.TemplateResponse("dashboard.html", {"request": request, "username": username})
     else:
         return serve_html_file("dashboard.html")
 

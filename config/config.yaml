@@ -1,6 +1,7 @@
 # StockAI_Master Configuration with Expanded Watchlist
-alpha_vantage_api_key: "DQ4I233CG66GOW9T"
-email: "jaysweb@proton.me"
+# Note: API keys should be set via environment variables (see .env.example)
+alpha_vantage_api_key: "${ALPHA_VANTAGE_API_KEY}"
+email: "${EMAIL_ADDRESS}"
 db_path: "data/unified_stock_intelligence.db"
 log_level: "INFO"
 web_port: 8000
@@ -186,10 +187,10 @@ default_watchlist:
 
 # Alert settings
 email_alerts: false
-smtp_server: ""
+smtp_server: "${SMTP_SERVER}"
 smtp_port: 587
-email_user: ""
-email_password: ""
+email_user: "${EMAIL_USER}"
+email_password: "${EMAIL_PASSWORD}"
 alert_recipients: []
 
 # Analysis settings
